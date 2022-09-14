@@ -6,25 +6,38 @@
     return result;
 }
 
-void InputArray(string[] args)
+void InputArray(string[] array)
 {
-    int length = args.Length;
-    int i = 0;
-    while (i < length)
+    for (int i = 0; i < array.Length; i++)
     {
-        Console.WriteLine($"Введите {i}-й элемент", i + 1);
-        args[i] = Console.ReadLine();
-        i++;
+        Console.WriteLine($"Введите {i}-й элемент");
+        array[i] = Console.ReadLine();
     }
     Console.WriteLine();
 }
 
-void PrintItems(string[] array)
+(string[], int) FindItems(string[] array)
 {
-    int length = array.Length;
-    for (int i = 0; i < length; i++)
+    string[] resArray = new string[array.Length];
+    int count = 0;
+    int j = 0;
+    for (int i = 0; i < array.Length; i++)
     {
-        if (array[i].Length <= 3) Console.WriteLine($"{i}. {array[i]} ");
+        if (array[i].Length <= 3)
+        {
+            resArray[j] = array[i];
+            count++;
+            j++;
+        }
+    }
+    return (resArray, count);
+}
+
+void PrintArray(string[] a)
+{
+    for (int i = 0; i < a.Length; i++)
+    {
+        Console.WriteLine($"{a[i]}");
     }
     Console.WriteLine();
 }
@@ -33,7 +46,16 @@ void Main()
 {
     string[] array = new string[InputNumber("Введите размер массива - ")];
     InputArray(array);
-    PrintItems(array);
+    (string[] resArray, int count) = FindItems(array);
+    Array.Resize(ref resArray, count);
+    if (count == 0)
+    {
+        System.Console.WriteLine("Новый массив пуст");
+    }
+    else
+    {
+        PrintArray(resArray);
+    }
 }
 
 Main();
